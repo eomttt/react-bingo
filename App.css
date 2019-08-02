@@ -1,0 +1,19 @@
+table {
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid black;
+  width: 2.5em;
+  height: 2.5em;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bingo-container {
+  margin-bottom: 2.5em;
+}
+
+.bingo-selected {
+  background-color: red;
+}
