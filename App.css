@@ -17,3 +17,45 @@ td {
 .bingo-selected {
   background-color: red;
 }
+
+.bingotable-container {
+  margin-bottom: 30px;
+}
+
+.bingotable-line {
+  height: 30px;
+}
+
+.bingotable-line .bingotable-item {
+  border-top: 1px solid black;
+}
+
+.bingotable-line:nth-child(5n) .bingotable-item {
+  border-bottom: 1px solid black;
+}
+
+.bingotable-item {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-left: 1px solid black;
+}
+
+.bingotable-item-selected {
+  background-color: red;
+}
+
+.bingotable-item:nth-child(5n) {
+  border-right: 1px solid black
+}
+
+.bingotable-item .bingotable-text {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.bingotable-item .bingotable-text div{
+  margin: auto;
+}

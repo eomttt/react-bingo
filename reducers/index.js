@@ -1,36 +1,73 @@
-const BINGO_LEN = 5;
+import { BINGO_LEN, PLAYER } from '../constant';
 
 const initialState = {
   result: null,
-  turn: '1P',
-  bingoOne: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill({user: '1P', value: null, select: false})),
+  nowTurn: PLAYER.ONE,
+  bingoOne: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill(null)),
+  bingoOneSelected: [],
   bingoOneRes: [],
   bingoOneRecentClick: {
     row: -1,
     column: -1
   },
-  bingoTwo: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill({user: '2P', value: null, select: false})),
+  bingoTwo: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill(null)),
+  bingoTwoSelected: [],
   bingoTwoRes: [],
   bingoTwoRecentClick: {
     row: -1,
     column: -1
   },
-  start: false
+  isStart: false
 };
 
-const CLICK_CELL = 'CLICK_CELL';
 const SET_BINGO = 'SET_BINGO';
 const CHANGE_TURN = 'CHANGE_TURN';
-const START_GMAE = 'START_GAME';
-const RESET_GAME = 'RESET_GAME';
 const SET_RESULT = 'SET_RESULT';
 
-export const clickCell = ({ value }) => {
+const CLICK_BINGO_ONE = 'CLICK_BINGO_ONE';
+const CLICK_BINGO_TWO = 'CLICK_BINGO_TWO';
+const START_GAME = 'START_GAME';
+const RESET_GAME = 'RESET_GAME';
+
+export const clickBingoOne = ({ number, row, column }) => {
+  return {
+    type: CLICK_BINGO_ONE,
+    number,
+    row,
+    column,
+  }
+};
+
+export const clickBingoTwo = ({ numbe, row, column }) => {
+  return {
+    type: CLICK_BINGO_TWO,
+    number,
+    row,
+    column
+  }
+};
+
+export const startGame = ({
+  bingoOne, bingoTwo,
+}) => {
+  return {
+    type: START_GAME,
+    bingoOne,
+    bingoTwo,
+  }
+}
+
+export const resetGame = () => {
+  return {
+    type: RESET_GAME,
+  }
+}
+
+export const clickCell = ({ row, column }) => {
   return {
     type: CLICK_CELL,
-    payload: {
-      value
-    }
+    row,
+    column,
   }
 };
 
@@ -49,22 +86,6 @@ export const changeTurn = () => {
   }
 };
 
-export const startGame = ({ bingoOne, bingoTwo }) => {
-  return {
-    type: START_GMAE,
-    payload: {
-      bingoOne,
-      bingoTwo
-    }
-  }
-};
-
-export const resetGame = () => {
-  return {
-    type: RESET_GAME
-  }
-};
-
 export const setResult = () => {
   return {
     type: SET_RESULT
@@ -74,26 +95,31 @@ export const setResult = () => {
 export default (state=initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case CLICK_CELL:
-      const bingoOne = [...state.bingoOne],
-        bingoTwo = [...state.bingoTwo];
-
-      let bingoOneIndex = _getIndex(bingoOne, payload.value),
-        bingoTwoIndex = _getIndex(bingoTwo, payload.value);
-
-      bingoOne[bingoOneIndex.row] = [...bingoOne[bingoOneIndex.row]];
-      bingoOne[bingoOneIndex.row][bingoOneIndex.column] = {...bingoOne[bingoOneIndex.row][bingoOneIndex.column], select: true}; 
-
-      bingoTwo[bingoTwoIndex.row] = [...bingoTwo[bingoTwoIndex.row]];
-      bingoTwo[bingoTwoIndex.row][bingoTwoIndex.column] = {...bingoTwo[bingoTwoIndex.row][bingoTwoIndex.column], select: true}; 
-
+    case CLICK_BINGO_ONE: {
+      const { number, row, column } = action;
       return {
         ...state,
-        bingoOne: bingoOne,
-        bingoOneRecentClick: bingoOneIndex,
-        bingoTwo: bingoTwo,
-        bingoTwoRecentClick: bingoTwoIndex
+        bingoOneSelected: [...state.bingoOneSelected, {number, row, column}],
       }
+    }
+    case CLICK_BINGO_TWO: {
+      const { number, row, column } = action;
+      return {
+        ...state,
+        bingoTwoSelected: [...state.bingoOneSelected, {number, row, column}],
+      }
+    }
+    case START_GAME: {
+      return {
+        ...state,
+        bingoOne: action.bingoOne,
+        bingoOneSelected: [],
+        bingoTwo: action.bingoTwo,
+        bingoTwoSelected: [],
+
+        isStart: true
+      };
+    }
     case SET_BINGO:
       const payloadValue = payload.value;
       let newRes = payloadValue[0].user === '1P' ? [...state.bingoOneRes] : [...state.bingoTwoRes];
@@ -117,26 +143,20 @@ export default (state=initialState, action) => {
     case CHANGE_TURN:
       return {
         ...state,
-        turn: state.turn === '1P' ? '2P' : '1P'
+        nowTurn: state.nowTurn === '1P' ? '2P' : '1P'
       };
-    case START_GMAE:
-      return {
-        ...state,
-        bingoOne: payload.bingoOne,
-        bingoTwo: payload.bingoTwo,
-        start: true
-      };
+
     case RESET_GAME:
       return {
         ...state,
-        turn: '1P',
+        nowTurn: '1P',
         bingoOne: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill({user: '1P', value: null, select: false})),
         bingoOneRes: [],
         bingoOneRecentClick: {row: -1, column: -1},
         bingoTwo: Array(BINGO_LEN).fill().map(() => Array(BINGO_LEN).fill({user: '2P', value: null, select: false})),
         bingoTwoRes: [],
         bingoTwoRecentClick: {row: -1, column: -1},
-        start: false
+        isStart: false
       };
     case SET_RESULT:
       return {

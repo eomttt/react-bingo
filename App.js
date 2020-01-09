@@ -1,13 +1,13 @@
 import React from 'react';
 
-import Bingo from './containers/Bingo';
-import BingoOptions from './containers/BingoOptions';
+import BingoTable from './containers/BingoTable';
+import BingoButton from './containers/BingoButton';
 
 const App = () => {
   return (
     <>
-      <Bingo/>
-      <BingoOptions/>
+      <BingoTable />
+      <BingoButton />
     </>
   );
 };

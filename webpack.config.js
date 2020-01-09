@@ -5,7 +5,7 @@ module.exports = {
   mode: 'development',
   devtool: 'eval',
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.jsx']
   },
 
   entry: {
@@ -13,7 +13,7 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.js?$/, 
+      test: /\.jsx?$/, 
       loader: 'babel-loader',
       options: {
         presets: [
