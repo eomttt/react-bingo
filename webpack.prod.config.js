@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   devtool: 'eval',
   resolve: {
     extensions: ['.js', '.jsx']
@@ -35,7 +35,7 @@ module.exports = {
   }, 
   plugins: [
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: false
     }),
   ], 
   output: {
