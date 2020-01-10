@@ -18,3 +18,7 @@ Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 - $ npm run build
 - Open **index.html**
+
+## `Demo`
+
+[https://eomttt.github.io/react-bingo/](https://eomttt.github.io/react-bingo/) fot DEMO
