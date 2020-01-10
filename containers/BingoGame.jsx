@@ -14,8 +14,8 @@ const BingoGameContainer = () => {
     const { bingoOneRes, bingoTwoRes, resultString } = useSelector((state) => state);
 
     useEffect(() => {
-        const isCompletBingoOne = isCompleteAllBingo(PLAYER.ONE, bingoOneRes);
-        const isCompleteBingoTwo = isCompleteAllBingo(PLAYER.TWO, bingoTwoRes);
+        const isCompletBingoOne = isCompleteAllBingo(bingoOneRes);
+        const isCompleteBingoTwo = isCompleteAllBingo(bingoTwoRes);
 
         if (isCompletBingoOne && isCompleteBingoTwo) {
             dispatch(bingoActions.setResult('무승부입니다.'));
@@ -29,8 +29,10 @@ const BingoGameContainer = () => {
 
     useEffect(() => {
         if (resultString) {
-            alert(resultString);
-            dispatch(bingoActions.resetGame());
+            setTimeout(() => {
+                alert(resultString);
+                dispatch(bingoActions.resetGame());
+            }, 300)
         }
     }, [resultString]);
 
@@ -38,7 +40,7 @@ const BingoGameContainer = () => {
         return bingoResData.length >= BINGO_LEN;
     }, []);
 
-    const isCompleteAllBingo = (user, bingoRes) => {
+    const isCompleteAllBingo = useCallback((bingoRes) => {
         let completeBingoCount = 0;
 
         Object.values(bingoRes).map((bingoType) => {
@@ -53,7 +55,7 @@ const BingoGameContainer = () => {
             return true;
         }
         return false;
-    }
+    }, []);
 
     return (
         <>
