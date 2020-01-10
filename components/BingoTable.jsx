@@ -2,11 +2,13 @@ import React, { useCallback } from 'react';
 
 const BingoTable = ({ bingo, selectedBingos, onClickBingo }) => {
   const isSelected = useCallback((bingoNumber) => {
-    const selectedNumbers = selectedBingos.map((selectedBingos) => {
-      return selectedBingos.number;
-    });
+    return selectedBingos.includes(bingoNumber);
+  }, [selectedBingos]);
 
-    return selectedNumbers.includes(bingoNumber);
+  const clickBingoItem = useCallback((bingoNumber, rowIndex, columnIndex) => {
+    if (!isSelected(bingoNumber)) {
+      onClickBingo(bingoNumber, rowIndex, columnIndex);
+    }
   }, [selectedBingos]);
   
   return (
@@ -20,7 +22,7 @@ const BingoTable = ({ bingo, selectedBingos, onClickBingo }) => {
                   return (
                     <div className={`bingotable-item ${isSelected(bingoItem) && 'bingotable-item-selected'}`}
                          key={`${bingoItem}-${columnIndex}`}
-                         onClick={() => onClickBingo(bingoItem, rowIndex, columnIndex)}>
+                         onClick={() => clickBingoItem(bingoItem, rowIndex, columnIndex)}>
                       <div className="bingotable-text">
                         <div>
                           {bingoItem}

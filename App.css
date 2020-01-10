@@ -59,3 +59,7 @@ td {
 .bingotable-item .bingotable-text div{
   margin: auto;
 }
+
+.bingoresult-container {
+  margin-bottom: 20px;
+}
