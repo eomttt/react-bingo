@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   devtool: 'eval',
   resolve: {
     extensions: ['.js', '.jsx']
@@ -35,8 +36,12 @@ module.exports = {
   }, 
   plugins: [
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: false,
     }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      filename: 'index.html'
+    })
   ], 
   output: {
     filename: 'app.js',
