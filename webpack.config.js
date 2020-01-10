@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -37,9 +38,12 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    })
   ], 
   output: {
     filename: 'app.js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'build')
   }, 
 };
