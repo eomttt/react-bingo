@@ -46,7 +46,6 @@ const BingoTableContainer = () => {
     }, []);
 
     const onClickBingoOne = useCallback((bingoNumber, row, column) => {
-        console.log('AAA', bingoNumber, row, column);
         if (!isStart) {
             alert('게임 시작을 눌러주세요!');
             return;
@@ -65,7 +64,6 @@ const BingoTableContainer = () => {
     }, [bingoTwo, nowTurn, isStart]);
 
     const onClickBingoTwo = useCallback((bingoNumber, row, column) => {
-        console.log('BBB', bingoNumber, row, column);
         if (!isStart) {
             alert('게임 시작을 눌러주세요!');
             return;
